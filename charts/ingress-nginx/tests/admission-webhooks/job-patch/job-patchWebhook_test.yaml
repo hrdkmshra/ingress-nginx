@@ -10,3 +10,18 @@ tests:
       - equal:
           path: spec.template.spec.automountServiceAccountToken
           value: false
+
+  - it: should set activeDeadlineSeconds when a value greater than 0 is provided
+    set:
+      controller.admissionWebhooks.patchWebhookJob.activeDeadlineSeconds: 1
+    asserts:
+      - equal:
+          path: spec.activeDeadlineSeconds
+          value: 1
+
+  - it: should not set activeDeadlineSeconds when zero provided
+    set:
+      controller.admissionWebhooks.patchWebhookJob.activeDeadlineSeconds: 0
+    asserts:
+      - isNull:
+          path: spec.activeDeadlineSeconds
